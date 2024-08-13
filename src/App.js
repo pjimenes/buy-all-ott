@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Link, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Routes, useNavigate, useParams } from 'react-router-dom';
 
 // Mock data for products
 const products = [
@@ -106,24 +106,24 @@ const Home = ({ addToCart }) => (
       </Link>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {products.slice(0, 3).map(product => (
-        <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden transition duration-200 transform hover:scale-105">
-          <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />
-          <div className="p-4">
-            <h4 className="font-bold text-xl mb-2">{product.name}</h4>
-            <p className="text-gray-600 mb-4">${product.price.toFixed(2)}</p>
-            <div className="flex justify-between">
-              <Link to={`/product/${product.id}`} className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">
-                View Details
-              </Link>
-              <button onClick={() => addToCart(product)} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
-                Add to Cart
-              </button>
-            </div>
+    {products.slice(0, 3).map(product => (
+      <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden transition duration-200 transform hover:scale-105">
+        <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />
+        <div className="p-4">
+          <h4 className="font-bold text-xl mb-2">{product.name}</h4>
+          <p className="text-gray-600 mb-4">${product.price.toFixed(2)}</p>
+          <div className="flex justify-between">
+            <Link to={`/product/${product.id}`} className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">
+              View Details
+            </Link>
+            <button onClick={() => addToCart(product)} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
+              Add to Cart
+            </button>
           </div>
         </div>
-      ))}
-    </div>
+      </div>
+    ))}
+  </div>
   </div>
 );
 
@@ -152,9 +152,34 @@ const Store = ({ addToCart }) => (
   </div>
 );
 
+
 const ProductDetails = ({ addToCart }) => {
-  // In a real app, you'd fetch the product details based on the ID from the URL
-  const product = products[0];
+  const { id } = useParams();
+  const product = products.find(p => p.id === parseInt(id));
+
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="md:flex">
+          <div className="md:flex-shrink-0">
+            <img src={product.image} alt={product.name} className="h-48 w-full object-cover md:w-48" />
+          </div>
+          <div className="p-8">
+            <h2 className="text-3xl font-bold mb-4">{product.name}</h2>
+            <p className="text-gray-600 mb-4">Experience the unique charm of this {product.name.toLowerCase()}. Perfect for collectors and enthusiasts alike.</p>
+            <p className="text-2xl font-bold text-indigo-600 mb-4">Price: ${product.price.toFixed(2)}</p>
+            <div className="space-x-4">
+              <button onClick={() => addToCart(product)} className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transition duration-200">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="container mx-auto px-4 py-8">
