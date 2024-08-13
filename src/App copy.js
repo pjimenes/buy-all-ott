@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Link, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
 // Mock data for products
 const products = [
@@ -19,7 +19,7 @@ const products = [
   { id: 14, name: 'Gramophone', price: 189.99, image: 'https://images.unsplash.com/photo-1518893883800-45cd0954574b?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
 ];
 
-const Header = ({ cartItems, isLoggedIn, handleLogout }) => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -27,32 +27,18 @@ const Header = ({ cartItems, isLoggedIn, handleLogout }) => {
       <div className="container mx-auto px-4 py-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">Buy AllOtt</h1>
-          <div className="flex items-center">
-            <Link to="/cart" className="mr-4">
-              Cart ({cartItems.length})
-            </Link>
-            {isLoggedIn ? (
-              <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded">
-                Logout
-              </button>
-            ) : (
-              <Link to="/login" className="bg-green-500 text-white px-4 py-2 rounded">
-                Login
-              </Link>
-            )}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="ml-4 md:hidden focus:outline-none"
-            >
-              <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
-                {isMenuOpen ? (
-                  <path fillRule="evenodd" d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z"/>
-                ) : (
-                  <path fillRule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/>
-                )}
-              </svg>
-            </button>
-          </div>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden focus:outline-none"
+          >
+            <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+              {isMenuOpen ? (
+                <path fillRule="evenodd" d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z"/>
+              ) : (
+                <path fillRule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/>
+              )}
+            </svg>
+          </button>
         </div>
         <nav className={`mt-4 ${isMenuOpen ? 'block' : 'hidden'} md:block`}>
           <ul className="md:flex md:space-x-6">
@@ -61,6 +47,7 @@ const Header = ({ cartItems, isLoggedIn, handleLogout }) => {
             <li><Link to="/contact" className="block py-2 hover:text-yellow-300 transition duration-200">Contact</Link></li>
             <li><Link to="/terms" className="block py-2 hover:text-yellow-300 transition duration-200">Terms</Link></li>
             <li><Link to="/no-return" className="block py-2 hover:text-yellow-300 transition duration-200">No Return Policy</Link></li>
+            <li><Link to="/login" className="block py-2 hover:text-yellow-300 transition duration-200">Login</Link></li>
           </ul>
         </nav>
       </div>
@@ -96,7 +83,7 @@ const Footer = () => (
   </footer>
 );
 
-const Home = ({ addToCart }) => (
+const Home = () => (
   <div className="container mx-auto px-4 py-8">
     <div className="text-center mb-12">
       <h2 className="text-4xl font-bold mb-4">Welcome to Buy AllOtt</h2>
@@ -105,6 +92,7 @@ const Home = ({ addToCart }) => (
         Shop Now
       </Link>
     </div>
+    <h3 className="text-2xl font-bold mb-6">Featured Items</h3>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {products.slice(0, 3).map(product => (
         <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden transition duration-200 transform hover:scale-105">
@@ -112,14 +100,9 @@ const Home = ({ addToCart }) => (
           <div className="p-4">
             <h4 className="font-bold text-xl mb-2">{product.name}</h4>
             <p className="text-gray-600 mb-4">${product.price.toFixed(2)}</p>
-            <div className="flex justify-between">
-              <Link to={`/product/${product.id}`} className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">
-                View Details
-              </Link>
-              <button onClick={() => addToCart(product)} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
-                Add to Cart
-              </button>
-            </div>
+            <Link to={`/product/${product.id}`} className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">
+              View Details
+            </Link>
           </div>
         </div>
       ))}
@@ -127,7 +110,7 @@ const Home = ({ addToCart }) => (
   </div>
 );
 
-const Store = ({ addToCart }) => (
+const Store = () => (
   <div className="container mx-auto px-4 py-8">
     <h2 className="text-3xl font-bold mb-8">Our Store</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -137,14 +120,9 @@ const Store = ({ addToCart }) => (
           <div className="p-4">
             <h4 className="font-bold text-xl mb-2">{product.name}</h4>
             <p className="text-gray-600 mb-4">${product.price.toFixed(2)}</p>
-            <div className="flex justify-between">
-              <Link to={`/product/${product.id}`} className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">
-                View Details
-              </Link>
-              <button onClick={() => addToCart(product)} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
-                Add to Cart
-              </button>
-            </div>
+            <Link to={`/product/${product.id}`} className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">
+              View Details
+            </Link>
           </div>
         </div>
       ))}
@@ -152,7 +130,7 @@ const Store = ({ addToCart }) => (
   </div>
 );
 
-const ProductDetails = ({ addToCart }) => {
+const ProductDetails = () => {
   // In a real app, you'd fetch the product details based on the ID from the URL
   const product = products[0];
 
@@ -168,7 +146,8 @@ const ProductDetails = ({ addToCart }) => {
             <p className="text-gray-600 mb-4">Experience the warm, rich sound of vinyl with this beautifully restored vintage record player. Perfect for music enthusiasts and collectors alike.</p>
             <p className="text-2xl font-bold text-indigo-600 mb-4">Price: ${product.price.toFixed(2)}</p>
             <div className="space-x-4">
-              <button onClick={() => addToCart(product)} className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transition duration-200">Add to Cart</button>
+              <button className="bg-indigo-600 text-white px-6 py-3 rounded hover:bg-indigo-700 transition duration-200">Buy Now</button>
+              <button className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transition duration-200">Add to Cart</button>
             </div>
           </div>
         </div>
@@ -176,34 +155,6 @@ const ProductDetails = ({ addToCart }) => {
     </div>
   );
 };
-
-const Cart = ({ cartItems, removeFromCart }) => (
-  <div className="container mx-auto px-4 py-8">
-    <h2 className="text-3xl font-bold mb-8">Your Cart</h2>
-    {cartItems.length === 0 ? (
-      <p>Your cart is empty.</p>
-    ) : (
-      <div>
-        {cartItems.map(item => (
-          <div key={item.id} className="flex items-center justify-between border-b py-4">
-            <div className="flex items-center">
-              <img src={item.image} alt={item.name} className="w-16 h-16 object-cover mr-4" />
-              <div>
-                <h3 className="font-bold">{item.name}</h3>
-                <p>${item.price.toFixed(2)}</p>
-              </div>
-            </div>
-            <button onClick={() => removeFromCart(item.id)} className="bg-red-500 text-white px-4 py-2 rounded">Remove</button>
-          </div>
-        ))}
-        <div className="mt-8">
-          <h3 className="text-xl font-bold">Total: ${cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)}</h3>
-          <button className="mt-4 bg-indigo-600 text-white px-6 py-3 rounded hover:bg-indigo-700 transition duration-200">Checkout</button>
-        </div>
-      </div>
-    )}
-  </div>
-);
 
 const Contact = () => (
   <div className="container mx-auto px-4 py-8">
@@ -265,91 +216,45 @@ const NoReturn = () => (
   </div>
 );
 
-const Login = ({ handleLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Mock login logic
-    if (username === 'user' && password === 'password') {
-      handleLogin();
-      navigate('/');
-    } else {
-      alert('Invalid credentials');
-    }
-  };
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="py-4 px-6 bg-indigo-600 text-white text-center">
-          <h2 className="text-3xl font-bold">Login</h2>
+const Login = () => (
+  <div className="container mx-auto px-4 py-8">
+    <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="py-4 px-6 bg-indigo-600 text-white text-center">
+        <h2 className="text-3xl font-bold">Login</h2>
+      </div>
+      <form className="py-4 px-6">
+        <div className="mb-4">
+          <label htmlFor="username" className="block text-gray-700 mb-2">Username/Email:</label>
+          <input type="text" id="username" name="username" required className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-600" />
         </div>
-        <form onSubmit={handleSubmit} className="py-4 px-6">
-          <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700 mb-2">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-            />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700 mb-2">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-            />
-          </div>
-          <button type="submit" className="w-full bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">Login</button>
-        </form>
+        <div className="mb-6">
+          <label htmlFor="password" className="block text-gray-700 mb-2">Password:</label>
+          <input type="password" id="password" name="password" required className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-600" />
+        </div>
+        <button type="submit" className="w-full bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">Login</button>
+      </form>
+      <div className="py-4 px-6 bg-gray-100 text-center">
+        <p><a href="#" className="text-indigo-600 hover:underline">Forgot Password?</a></p>
+        <p className="mt-2">Don't have an account? <a href="#" className="text-indigo-600 hover:underline">Create Account</a></p>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 const App = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const addToCart = (product) => {
-    setCartItems([...cartItems, product]);
-  };
-
-  const removeFromCart = (productId) => {
-    setCartItems(cartItems.filter(item => item.id !== productId));
-  };
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
   return (
     <Router>
       <div className="min-h-screen flex flex-col bg-gray-100">
-        <Header cartItems={cartItems} isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+        <Header />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home addToCart={addToCart} />} />
-            <Route path="/store" element={<Store addToCart={addToCart} />} />
-            <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/no-return" element={<NoReturn />} />
-            <Route path="/login" element={<Login handleLogin={handleLogin} />} />
-            <Route path="/cart" element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
         <Footer />
