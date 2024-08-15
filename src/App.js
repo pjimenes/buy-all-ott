@@ -58,7 +58,6 @@ const Header = ({ cartItems, isLoggedIn, handleLogout }) => {
           <ul className="md:flex md:space-x-6">
             <li><Link to="/" className="block py-2 hover:text-yellow-300 transition duration-200">Home</Link></li>
             <li><Link to="/store" className="block py-2 hover:text-yellow-300 transition duration-200">Store</Link></li>
-            <li><Link to="/contact" className="block py-2 hover:text-yellow-300 transition duration-200">Contact</Link></li>
             <li><Link to="/terms" className="block py-2 hover:text-yellow-300 transition duration-200">Terms</Link></li>
             <li><Link to="/no-return" className="block py-2 hover:text-yellow-300 transition duration-200">No Return Policy</Link></li>
           </ul>
@@ -82,11 +81,6 @@ const Footer = () => (
             <li><Link to="/terms" className="text-gray-400 hover:text-white transition duration-200">Terms and Conditions</Link></li>
             <li><Link to="/no-return" className="text-gray-400 hover:text-white transition duration-200">No Return Policy</Link></li>
           </ul>
-        </div>
-        <div className="w-full md:w-1/3">
-          <h3 className="text-xl font-bold mb-2">Contact Us</h3>
-          <p className="text-gray-400">123 Storage Lane, Cityville, State 12345</p>
-          <p className="text-gray-400">info@buyallott.com</p>
         </div>
       </div>
       <div className="border-t border-gray-700 mt-8 pt-8 text-center">
