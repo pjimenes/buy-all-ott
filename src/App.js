@@ -58,6 +58,7 @@ const Header = ({ cartItems, isLoggedIn, handleLogout }) => {
           <ul className="md:flex md:space-x-6">
             <li><Link to="/" className="block py-2 hover:text-yellow-300 transition duration-200">Home</Link></li>
             <li><Link to="/store" className="block py-2 hover:text-yellow-300 transition duration-200">Store</Link></li>
+            <li><Link to="/contact" className="block py-2 hover:text-yellow-300 transition duration-200">Contact</Link></li>
             <li><Link to="/terms" className="block py-2 hover:text-yellow-300 transition duration-200">Terms</Link></li>
             <li><Link to="/no-return" className="block py-2 hover:text-yellow-300 transition duration-200">No Return Policy</Link></li>
           </ul>
@@ -228,12 +229,6 @@ const Contact = () => (
   <div className="container mx-auto px-4 py-8">
     <h2 className="text-3xl font-bold mb-8">Contact Us</h2>
     <div className="bg-white rounded-lg shadow-md overflow-hidden p-8">
-      <div className="mb-8">
-        <h3 className="text-xl font-bold mb-4">Our Information</h3>
-        <p className="text-gray-600">Address: 123 Storage Lane, Cityville, State 12345</p>
-        <p className="text-gray-600">Phone: (555) 123-4567</p>
-        <p className="text-gray-600">Email: info@buyallott.com</p>
-      </div>
       <form className="space-y-4">
         <h3 className="text-xl font-bold mb-4">Send us a message</h3>
         <div>
